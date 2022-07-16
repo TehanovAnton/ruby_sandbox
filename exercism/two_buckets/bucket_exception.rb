@@ -1,6 +1,4 @@
+# frozen_string_literal: true
 
 class BucketException < StandardError
-  def initialize(message:)
-    super
-  end
 end

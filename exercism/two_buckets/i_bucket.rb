@@ -1,4 +1,6 @@
+# frozen_string_literal: true
 
+# IBucket
 class IBucket
   attr_reader :volume, :value
 
@@ -28,6 +30,10 @@ class IBucket
   end
 
   def full?
+    volume == value
+  end
+
+  def empty?
     volume == value
   end
 end
