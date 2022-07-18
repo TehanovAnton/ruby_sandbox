@@ -1,0 +1,7 @@
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - exercism/two_buckets/spec/*
