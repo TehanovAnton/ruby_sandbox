@@ -9,6 +9,10 @@ class Bucket < IBucket
     @value = volume
   end
 
+  def pour_out
+    @value = 0
+  end
+
   def pour_to(bucket)
     out_volume = possible_decrease_volume(out_volume: bucket.free_volume)
     in_volume = decrease_volume(out_volume: out_volume)
