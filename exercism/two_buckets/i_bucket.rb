@@ -2,11 +2,12 @@
 
 # IBucket
 class IBucket
-  attr_reader :volume, :value
+  attr_reader :volume, :value, :name
 
-  def initialize(volume:, value: 0)
+  def initialize(volume:, value: 0, name: 'bucket')
     @volume = volume
     @value = value
+    @name = name
   end
 
   def pour_to
@@ -34,6 +35,6 @@ class IBucket
   end
 
   def empty?
-    volume == value
+    value.zero?
   end
 end

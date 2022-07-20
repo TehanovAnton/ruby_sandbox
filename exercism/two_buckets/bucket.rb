@@ -15,16 +15,20 @@ class Bucket < IBucket
 
   def pour_to(bucket)
     out_volume = possible_decrease_volume(out_volume: bucket.free_volume)
-    in_volume = decrease_volume(out_volume: out_volume)
+    in_volume = decrease_volume(out_volume:)
 
-    bucket.increase_value(in_volume: bucket.possible_increase_volume(in_volume: in_volume))
+    bucket.increase_value(in_volume: bucket.possible_increase_volume(in_volume:))
   end
 
   def pour_from(bucket)
     out_volume = bucket.possible_decrease_volume(out_volume: free_volume)
-    in_volume = bucket.decrease_volume(out_volume: out_volume)
+    in_volume = bucket.decrease_volume(out_volume:)
 
-    increase_value(in_volume: possible_increase_volume(in_volume: in_volume))
+    increase_value(in_volume: possible_increase_volume(in_volume:))
+  end
+
+  def status
+    puts "\n#{inspect}"
   end
 
   protected
