@@ -2,23 +2,25 @@
 
 require_relative 'element'
 
-class SimpleLinkedList
-  attr_reader :head, :tail, :datum
+module SimpleLinkedListBase
+  def update(*params, action:, action_result: false)
+    result = action.call(*params)
+    return result if action_result
 
-  def initialize
-    @head = nil
-    @tail = nil
+    self
   end
 
-  def push(element)
-    update(element, action: method(:add_element))
+  def empty?
+    head.nil?
   end
+end
+
+module SimpleLinkedListPopFunctionality
+  include SimpleLinkedListBase
 
   def pop
     update(action: method(:remove_last_element), action_result: true)
   end
-
-  private
 
   def remove_last_element
     return if empty?
@@ -27,19 +29,38 @@ class SimpleLinkedList
     if one?
       @head = @tail = nil
     else
-      removed_element = (@tail = @tail.previous).next
-      @tail.next = nil
+      removed_element = (@tail = @tail.previous).next_el
+      @tail.next_el = nil
     end
 
     removed_element
   end
 
-  def empty?
+  def one?
+    tail == head
+  end
+end
+
+module SimpleLinkedListPushFunctionality
+  include SimpleLinkedListBase
+
+  def push(element)
+    update(element, action: method(:add_element))
+  end
+
+  def first?
     head.nil?
   end
 
-  def one?
-    tail == head
+  def update_tail(element)
+    # binding.pry
+    element.previous = tail
+    @tail.next_el = element
+    @tail = element
+  end
+
+  def primary_setup(element)
+    @head = @tail = element
   end
 
   def add_element(element)
@@ -47,26 +68,37 @@ class SimpleLinkedList
 
     update_tail(element)
   end
+end
 
-  def first?
-    head.nil?
+module SimpleLinkedListEnumerableFunctionality
+  include Enumerable
+
+  def each(&block)
+    return if empty?
+
+    head.each(&block)
   end
+end
 
-  def primary_setup(element)
-    @head = @tail = element
+module SimpleLinkedListToArrFunctionality
+  include SimpleLinkedListEnumerableFunctionality
+
+  def to_a
+    return [] if empty?
+
+    head.reverse_each.with_object([]) { |element, memo| memo << element.datum }
   end
+end
 
-  def update_tail(element)
-    # binding.pry
-    element.previous = tail
-    @tail.next = element
-    @tail = element
-  end
+class SimpleLinkedList
+  attr_reader :head, :tail, :datum
 
-  def update(*params, action:, action_result: false)
-    result = action.call(*params)
-    return result if action_result
+  include SimpleLinkedListPushFunctionality
+  include SimpleLinkedListPopFunctionality
+  include SimpleLinkedListToArrFunctionality
 
-    self
+  def initialize
+    @head = nil
+    @tail = nil
   end
 end

@@ -92,4 +92,22 @@ RSpec.describe SimpleLinkedList do
       end
     end
   end
+
+  describe '#to_a' do
+    context 'when not empty' do
+      let(:list) { SimpleLinkedList.new.push(Element.new(1)).push(Element.new(2)) }
+
+      it 'returns arr' do
+        expect(list.to_a).to eq([2, 1])
+      end
+    end
+
+    context 'when empty' do
+      let(:list) { SimpleLinkedList.new }
+
+      it 'returns arr' do
+        expect(list.to_a).to eq([])
+      end
+    end
+  end
 end
