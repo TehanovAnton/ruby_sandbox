@@ -1,7 +1,7 @@
 require_relative 'element'
 
 class SimpleLinkedList
-  attr_reader :head, :tail, :arr
+  attr_reader :head, :tail, :datum
 
   def initialize
     @head = nil
@@ -9,20 +9,36 @@ class SimpleLinkedList
   end
 
   def push(element)
+    update(element, action: method(:add_element))
+  end
+
+  def pop
+    update(action: method(:remove_last_element), action_result: true)
+  end
+
+  private
+
+  def remove_last_element
+    return if empty?
+
+    removed_element = (@tail = @tail.previous).next
+    @tail.next = nil
+
+    removed_element
+  end
+
+  def empty?
+    head.nil?
+  end
+
+  def add_element(element)
     return primary_setup(element) if first?
 
     update_tail(element)
   end
 
-  def pop
-    @tail = @tail.previous
-    @tail.next = nil
-  end
-
-  private
-
   def first?
-    head.nill?
+    head.nil?
   end
 
   def primary_setup(element)
@@ -33,9 +49,16 @@ class SimpleLinkedList
     @tail.previous = head
   end
 
-  def udpate_tail(element)
+  def update_tail(element)
     element.previous = tail
     @tail.next = element
     @tail = element
+  end
+
+  def update(*params, action:, action_result: false)
+    result = action.call(*params)
+    return result if action_result
+
+    self
   end
 end
