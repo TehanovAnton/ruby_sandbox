@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'element'
 
 class SimpleLinkedList
@@ -21,14 +23,23 @@ class SimpleLinkedList
   def remove_last_element
     return if empty?
 
-    removed_element = (@tail = @tail.previous).next
-    @tail.next = nil
+    removed_element = head
+    if one?
+      @head = @tail = nil
+    else
+      removed_element = (@tail = @tail.previous).next
+      @tail.next = nil
+    end
 
     removed_element
   end
 
   def empty?
     head.nil?
+  end
+
+  def one?
+    tail == head
   end
 
   def add_element(element)
@@ -42,14 +53,11 @@ class SimpleLinkedList
   end
 
   def primary_setup(element)
-    @head = element
-    @tail = element
-    
-    @head.next = tail
-    @tail.previous = head
+    @head = @tail = element
   end
 
   def update_tail(element)
+    # binding.pry
     element.previous = tail
     @tail.next = element
     @tail = element

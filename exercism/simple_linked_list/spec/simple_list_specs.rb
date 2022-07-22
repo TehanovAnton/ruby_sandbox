@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 
-require_relative '../simple_linked_list.rb'
-require_relative '../element.rb'
+require_relative '../simple_linked_list'
+require_relative '../element'
 require 'pry-nav'
 
 RSpec.describe SimpleLinkedList do
@@ -11,7 +12,7 @@ RSpec.describe SimpleLinkedList do
       it 'has not head and tail' do
         expect(list.head).to be_nil
         expect(list.tail).to be_nil
-      end      
+      end
     end
 
     context 'when push one element' do
@@ -22,19 +23,8 @@ RSpec.describe SimpleLinkedList do
         expect(list).to be_a(SimpleLinkedList)
       end
 
-      it 'has head and tail' do
-        expect(list.head).to eq(element)
-        expect(list.tail).to eq(element)
-      end
-
-      it 'has next and has previous as itself on head' do
-        expect(list.head.next).to eq(list.tail)
-        expect(list.head.previous).to eq(list.head)
-      end
-
-      it 'has previous and has next as itself on tail' do
-        expect(list.tail.next).to eq(list.tail)
-        expect(list.tail.previous).to eq(list.head)
+      it 'has head that equal tail' do
+        expect(list.head).to eq(list.tail)
       end
     end
 
@@ -50,7 +40,7 @@ RSpec.describe SimpleLinkedList do
 
       it 'has correct next and previous on head and tail' do
         expect(list.head.next).to eq(list.tail)
-        expect(list.head.previous).to eq(list.head)
+        expect(list.head.previous).to be_nil
 
         expect(list.tail.next).to be_nil
         expect(list.tail.previous).to eq(list.head)
@@ -64,6 +54,41 @@ RSpec.describe SimpleLinkedList do
 
       it 'pops nil' do
         expect(element).to be_nil
+      end
+    end
+
+    context 'when one element' do
+      let(:element) { Element.new(1) }
+      let(:list) { SimpleLinkedList.new.push(element) }
+      let!(:poped_element) { list.pop }
+
+      it 'pops element' do
+        expect(element).to eq(poped_element)
+      end
+
+      it 'has no head and tail' do
+        expect(list.head).to be_nil
+        expect(list.tail).to be_nil
+      end
+    end
+
+    context 'when push two element' do
+      let(:first_element) { Element.new(1) }
+      let(:second_element) { Element.new(1) }
+      let(:list) { SimpleLinkedList.new.push(first_element).push(second_element) }
+      let!(:poped_element) { list.pop }
+
+      it 'pops element' do
+        expect(poped_element).to eq(second_element)
+      end
+
+      it 'has correct head and tail' do
+        expect(list.head).to eq(list.tail)
+      end
+
+      it 'has correct next and previous on head and tail' do
+        expect(list.head.next).to be_nil
+        expect(list.head.previous).to be_nil
       end
     end
   end
