@@ -110,4 +110,24 @@ RSpec.describe SimpleLinkedList do
       end
     end
   end
+
+  describe '#initialize' do
+    context 'when simple number' do
+      let(:list) { SimpleLinkedList.new(1) }
+
+      it 'returns list' do
+        expect(list).to be_a(SimpleLinkedList)
+        expect(list.to_a).to eq([1])
+      end
+    end
+
+    context 'when array' do
+      let(:list) { SimpleLinkedList.new([1, 2]) }
+
+      it 'returns list' do
+        expect(list).to be_a(SimpleLinkedList)
+        expect(list.to_a).to eq([2, 1])
+      end
+    end
+  end
 end

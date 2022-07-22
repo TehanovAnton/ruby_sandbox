@@ -97,8 +97,11 @@ class SimpleLinkedList
   include SimpleLinkedListPopFunctionality
   include SimpleLinkedListToArrFunctionality
 
-  def initialize
+  def initialize(datums = [])
     @head = nil
     @tail = nil
+    datums = ([] << datums).flatten
+
+    datums.each { |datum| push(Element.new(datum)) }
   end
 end
