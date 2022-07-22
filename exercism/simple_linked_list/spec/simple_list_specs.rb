@@ -130,4 +130,13 @@ RSpec.describe SimpleLinkedList do
       end
     end
   end
+
+  describe '#reverse' do
+    let(:list) { SimpleLinkedList.new(1).push(Element.new(2)) }
+
+    it 'returns list' do
+      expect(list.reverse).to be_a(SimpleLinkedList)
+      expect(list.reverse.to_a).to eq([1, 2])
+    end
+  end
 end

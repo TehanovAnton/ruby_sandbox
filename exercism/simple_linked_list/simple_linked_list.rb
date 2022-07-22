@@ -91,7 +91,7 @@ module SimpleLinkedListToArrFunctionality
 end
 
 class SimpleLinkedList
-  attr_reader :head, :tail, :datum
+  attr_reader :head, :tail
 
   include SimpleLinkedListPushFunctionality
   include SimpleLinkedListPopFunctionality
