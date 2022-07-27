@@ -1,0 +1,18 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: device_token_auth_example_development
+
+test:
+  <<: *default
+  database: device_token_auth_example_test
+
+production:
+  <<: *default
+  database: device_token_auth_example_production
+  username: device_token_auth_example
+  password: <%= ENV['DEVICE_TOKEN_AUTH_EXAMPLE_DATABASE_PASSWORD'] %>
