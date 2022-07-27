@@ -19,13 +19,13 @@ class Luhn
         .modulo(10).zero?
     end
 
-    def double_digits_even_position(el, i)
-      return el unless (i + 1).modulo(2).zero?
+    def double_digits_even_position(element, index)
+      return element unless (index + 1).modulo(2).zero?
 
-      el *= 2
-      return el if el <= 9
+      element *= 2
+      return element if element <= 9
 
-      el - 9
+      element - 9
     end
   end
 end
