@@ -1,12 +1,18 @@
 <script setup>
 import { ref } from "vue";
+import { useQuery } from "villus";
 
 const newUser = ref({});
 
 function signUp(event) {
   event.preventDefault();
 
-  newUser.value = { call: "done" };
+  const signUpQuery = "";
+
+  const { data } = useQuery({
+    query: signUpQuery,
+    variables: signUpVariables,
+  });
 }
 </script>
 
