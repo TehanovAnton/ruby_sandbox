@@ -1,0 +1,9 @@
+AllCops:
+  Exclude:
+    - config/**/*
+    - db/migrate/*
+    - db/schema.rb
+    - bin/**/*
+
+Style/Documentation:
+  Enabled: false
