@@ -1,34 +1,43 @@
 <script setup>
 import { ref } from "vue";
-import { useQuery } from "villus";
 
 const newUser = ref({});
 
-function signUp(event) {
+async function signUp(event) {
   event.preventDefault();
 
-  const signUpQuery = "";
+  const sign_up_url = "http://localhost:3000/auth";
+  const sign_up_options = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams(newUser.value).toString(),
+  };
 
-  const { data } = useQuery({
-    query: signUpQuery,
-    variables: signUpVariables,
-  });
+  await fetch(sign_up_url, sign_up_options);
 }
 </script>
 
 <template>
-  {{ newUser }}
-  <form @click="signUp">
+  <form @submit="signUp">
     Name:<input type="text" v-model="newUser.name" />
     <br />
 
-    Nick name:<input type="text" v-model="newUser.nickName" />
+    Nick name:<input type="text" v-model="newUser.nickname" />
     <br />
 
     Email:<input type="text" v-model="newUser.email" />
     <br />
 
     Password:<input type="text" v-model="newUser.password" />
+    <br />
+
+    Password confirmation:<input
+      type="text"
+      v-model="newUser.password_confirmation"
+    />
     <br />
 
     <button>Sign up</button>
