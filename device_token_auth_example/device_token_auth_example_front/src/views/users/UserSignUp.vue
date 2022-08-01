@@ -1,7 +1,14 @@
 <script setup>
 import { ref } from "vue";
+import router from "../../router/router";
 
-const newUser = ref({});
+const newUser = ref({
+  name: "Anton",
+  nickname: "Leichu",
+  email: "tehanovanton@gmail.com",
+  password: 12345678,
+  password_confirmation: 12345678,
+});
 
 async function signUp(event) {
   event.preventDefault();
@@ -16,8 +23,13 @@ async function signUp(event) {
     body: new URLSearchParams(newUser.value).toString(),
   };
 
-  await fetch(sign_up_url, sign_up_options);
+  const response = await fetch(sign_up_url, sign_up_options);
+  if (response.ok) {
+    router.psuh({ name: "signIn" });
+  }
 }
+
+const signInVew = () => router.push({ name: "signIn" });
 </script>
 
 <template>
@@ -42,4 +54,6 @@ async function signUp(event) {
 
     <button>Sign up</button>
   </form>
+
+  <input type="button" @click="signInVew" value="Sign In" />
 </template>
