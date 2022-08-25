@@ -27,7 +27,6 @@
 
     const response = await fetch(signUpUrl, signUpOptions);
     if (response.ok) {
-      debugger
       signInView()
     }
 }
