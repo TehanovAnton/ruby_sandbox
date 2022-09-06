@@ -2,6 +2,9 @@
 
 DeviseTokenAuth.setup do |config|
   config.cookie_enabled = true
+  config.cookie_name = "auth_cookie"
+  config.cookie_attributes = { httponly: true }
+  
   # config.cookie_attributes = { httponly: true }
   # config.cookie_name = 'access_token'
   
