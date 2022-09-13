@@ -55,5 +55,5 @@
     <button>Sign up</button>
   </form>
 
-  <input type="button" @click="signInVew" value="Sign In" />
+  <input type="button" @click="signInView" value="Sign In" />
 </template>

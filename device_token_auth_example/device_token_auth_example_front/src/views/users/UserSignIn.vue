@@ -1,7 +1,12 @@
 <script setup>
   import { ref } from "vue";
+  import router from "../../router/router";
 
   const credentials = ref({})
+
+  const signUpView = () => router.push({ name: "signIn" });
+  const homeView = () => router.push({ name: "home" });
+
   async function authenticate(event) {
     event.preventDefault();
 
@@ -15,10 +20,12 @@
       body: new URLSearchParams(credentials.value).toString(),
     };
 
-    const response = await (await fetch(signInUrl, signInOptions));
+    const response = await fetch(signInUrl, signInOptions);
+    debugger
     if (response.ok) {
-      debugger
-      console.log('Great')
+      homeView()
+    } else {
+      console.log('something went wrong')
     }
   }
 </script>
@@ -33,4 +40,6 @@
 
     <button>Sign In</button>
   </form>
+
+  <input type="button" @click="signUpView" value="Sign Up" />
 </template>
