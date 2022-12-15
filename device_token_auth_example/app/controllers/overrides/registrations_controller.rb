@@ -5,6 +5,7 @@ module Overrides
     private
 
     def sign_up_params
+      binding.pry
       params.permit(:name, :nickname, :email, :password, :password_confirmation)
     end
   end
