@@ -1,71 +1,49 @@
 require 'colorize'
 require 'date'
 require 'pry'
+require_relative 'callender_console_writer'
 
 class Callender
+  attr_reader :callender_day
+
   def initialize
     @date = Date.today
     @month_start = Date.new(@date.year, @date.month, 1)
-    @days = {}
+    @day_names = Date::DAYNAMES
+    @console_writer = CallenderConsoleWriter.new(@date, @day_names)
   end
 
   def call
-    init_days
     init_callender_day
 
+    @console_writer.write_month
+    @console_writer.write_day_names
+
     while @callender_day != Date.new(@date.year, @date.month, -1)
-      callender_day_output(@callender_day)
+      @console_writer.write_day(callender_day_output, callender_day_name)
       @callender_day += 1
     end
-    callender_day_output(@callender_day)
 
-    print "     #{Date::MONTHNAMES[@date.month]} #{@date.year}\n"
-
-    until @days.values.reject(&:empty?).empty?
-      Date::DAYNAMES.each do |day_name|
-        day = @days[day_name].shift || ''
-        day = day.colorize(background: :white, color: :black) if @date.day.to_s == day.to_i.to_s
-
-        print day
-        print "\n" if day_name == 'Saturday'
-        print ' ' if day_name != 'Saturday'
-      end
-    end
-
-    @output
+    @console_writer.write_day(callender_day_output, callender_day_name)
   end
 
   private
 
-  def init_days
-    Date::DAYNAMES.each do |day_name|
-      short_name = day_name[0, 2]
-      short_name += "\n" if day_name == 'Saturday'
-
-      @days[day_name] = [short_name]
-    end
+  def callender_day_name
+    @day_names[@callender_day.wday]
   end
 
   def init_callender_day
-    callender_day = @month_start
-    callender_day -= 1 while Date::DAYNAMES[callender_day.wday] != 'Sunday'
-
-    @callender_day = callender_day
+    @callender_day = @month_start
+    @callender_day -= 1 while @day_names[callender_day.wday] != @day_names.first
   end
 
-  def callender_day_output(callender_day)
-    callender_day_name = Date::DAYNAMES[callender_day.wday]
+  def callender_day_output
+    output = '  '
+    return output if callender_day < @month_start
+    return " #{callender_day.day}" if callender_day.day < 10
 
-    unless callender_day_name
-      short_name = callender_day_name[0, 2]
-      short_name += "\n" if callender_day_name == 'Saturday'
-      @days[callender_day_name] = [short_name]
-    end
-
-    return @days[callender_day_name] << '  ' if callender_day < @month_start
-
-    output = callender_day.day < 10 ? " #{callender_day.day}" : callender_day.day.to_s
-    @days[callender_day_name] << output
+    callender_day.day.to_s
   end
 end
 
