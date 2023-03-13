@@ -2,6 +2,7 @@ require 'colorize'
 require 'date'
 require 'pry'
 require_relative 'callender_console_writer'
+require_relative 'day_names_formater'
 
 class Callender
   attr_reader :callender_day
@@ -9,7 +10,7 @@ class Callender
   def initialize
     @date = Date.today
     @month_start = Date.new(@date.year, @date.month, 1)
-    @day_names = Date::DAYNAMES
+    @day_names = DayNamesFormater.new(Date::DAYNAMES, :en).format_days
     @console_writer = CallenderConsoleWriter.new(@date, @day_names)
   end
 
