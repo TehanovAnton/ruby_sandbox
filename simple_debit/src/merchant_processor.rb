@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MerchantProcessor
   attr_reader :id, :iban, :discount, :transactions, :total_fee, :total_amount, :payable_amount, :applicable_discount
 
@@ -33,7 +35,7 @@ class MerchantProcessor
   end
 
   def calculate_discount
-    fee * discount['fees_discount'] / 100
+    total_fee * discount['fees_discount'] / 100
   end
 
   def discount?

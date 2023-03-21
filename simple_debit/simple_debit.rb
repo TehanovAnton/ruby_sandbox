@@ -1,9 +1,7 @@
-require_relative 'src/merchant_processor'
-require_relative 'src/merchant_api'
-require_relative 'src/payment_report'
+require_relative 'src/api/merchants_api'
+require_relative 'src/payments_report'
+require_relative 'src/merchants_payments_collection'
 
-merchant_id = 'M28A9'
-data = MerchantApi.merchant(merchant_id)
-merchant_info = MerchantProcessor.call(**data.transform_keys(&:to_sym))
-payments = [[merchant_info.iban, merchant_info.payable_amount]]
+merchants_ids = MerchantsApi.merchants_ids
+payments = MerchantsPaymentsCollection.call(merchants_ids)
 PaymentsReport.call(payments)
